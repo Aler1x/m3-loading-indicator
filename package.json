@@ -1,0 +1,85 @@
+{
+  "name": "m3-loading-indicator",
+  "version": "0.1.0",
+  "description": "Material Design 3 Expressive Loading Indicator for React, Svelte 5, Vue 3, and vanilla JS. Faithfully ported from Android's material-components.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "./dist/core/index.cjs",
+  "module": "./dist/core/index.js",
+  "types": "./dist/core/index.d.ts",
+  "svelte": "./dist/svelte/M3LoadingIndicator.svelte",
+  "keywords": [
+    "material-design",
+    "material-3",
+    "loading-indicator",
+    "spinner",
+    "m3-expressive",
+    "react",
+    "svelte",
+    "vue",
+    "vanilla",
+    "shape-morph",
+    "android-port"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js",
+      "require": "./dist/core/index.cjs"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js",
+      "require": "./dist/react.cjs"
+    },
+    "./vue": {
+      "types": "./dist/vue.d.ts",
+      "import": "./dist/vue.js",
+      "require": "./dist/vue.cjs"
+    },
+    "./svelte": {
+      "types": "./dist/svelte/M3LoadingIndicator.svelte.d.ts",
+      "svelte": "./dist/svelte/M3LoadingIndicator.svelte",
+      "default": "./dist/svelte/M3LoadingIndicator.svelte"
+    }
+  },
+  "files": [
+    "dist",
+    "src/svelte"
+  ],
+  "scripts": {
+    "build": "tsup && shx cp -r src/svelte dist/svelte",
+    "dev": "tsup --watch",
+    "prepublishOnly": "npm run build",
+    "pack:dry": "npm pack --dry-run",
+    "example:vanilla": "pnpm -C examples/vanilla dev"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "svelte": "^5.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "shx": "^0.3.4",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "svelte": ">=5.0.0",
+    "vue": ">=3.3.0"
+  },
+  "peerDependenciesMeta": {
+    "react": { "optional": true },
+    "react-dom": { "optional": true },
+    "svelte": { "optional": true },
+    "vue": { "optional": true }
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
