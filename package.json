@@ -1,8 +1,12 @@
 {
   "name": "@alerix/m3-loading-indicator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "Alerix",
   "homepage": "https://aler1x.github.io/m3-loading-indicator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aler1x/m3-loading-indicator.git"
+  },
   "description": "Material Design 3 Expressive Loading Indicator for React, Svelte 5, Vue 3, and vanilla JS. Faithfully ported from Android's material-components.",
   "type": "module",
   "license": "MIT",
@@ -79,9 +83,5 @@
     "react-dom": { "optional": true },
     "svelte": { "optional": true },
     "vue": { "optional": true }
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
   }
 }
