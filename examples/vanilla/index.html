@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>M3 Loading Indicator — Vanilla JS</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        font-family: system-ui, sans-serif;
+        background: #f5f5f5;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+      .label {
+        font-size: 0.875rem;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="label">Default</div>
+      <canvas id="indicator-1" width="48" height="48" aria-label="Loading"></canvas>
+    </div>
+    <div class="row">
+      <div class="label">64px, purple</div>
+      <canvas id="indicator-2" width="64" height="64" aria-label="Loading"></canvas>
+    </div>
+    <div class="row">
+      <div class="label">Contained</div>
+      <canvas id="indicator-3" width="48" height="48" aria-label="Loading"></canvas>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
