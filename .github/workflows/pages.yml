@@ -37,7 +37,7 @@ jobs:
         env:
           BASE: /${{ github.event.repository.name }}/
 
-      - uses: actions/upload-pages-artifact@3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: examples/vanilla/dist
 
@@ -46,4 +46,4 @@ jobs:
     runs-on: ubuntu-latest
     environment: github-pages
     steps:
-      - uses: actions/deploy-pages@4
+      - uses: actions/deploy-pages@v4
