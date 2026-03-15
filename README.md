@@ -195,4 +195,4 @@ The 7 shapes use exact SVG path data from Material Design asset files, parsed at
 
 MIT — see [LICENSE](./LICENSE).
 
-Shape geometry and animation system ported from AOSP material-components-android (Apache 2.0).
+This package contains code ported from material-components-android (Apache 2.0, Copyright The Android Open Source Project) and SVG path data from Material Design shape assets (Apache 2.0, Copyright Google LLC). The Apache 2.0 license text and full attribution are included in LICENSE and NOTICE respectively, as required by the Apache 2.0 license terms.
