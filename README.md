@@ -16,7 +16,7 @@ Faithfully ported from Android's [material-components-android](https://github.co
 ## Install
 
 ```bash
-npm install m3-loading-indicator
+npm install @alerix/m3-loading-indicator
 ```
 
 ## Examples
@@ -32,7 +32,7 @@ pnpm example:vanilla
 ## React
 
 ```tsx
-import { M3LoadingIndicator } from "m3-loading-indicator/react";
+import { M3LoadingIndicator } from "@alerix/m3-loading-indicator/react";
 
 function App() {
   return (
@@ -57,7 +57,7 @@ function App() {
 
 ```svelte
 <script lang="ts">
-  import M3LoadingIndicator from "m3-loading-indicator/svelte";
+  import M3LoadingIndicator from "@alerix/m3-loading-indicator/svelte";
 </script>
 
 <!-- Default -->
@@ -77,7 +77,7 @@ function App() {
 
 ```vue
 <script setup>
-import { M3LoadingIndicator } from "m3-loading-indicator/vue";
+import { M3LoadingIndicator } from "@alerix/m3-loading-indicator/vue";
 </script>
 
 <template>
@@ -105,7 +105,7 @@ import {
   getMorphedShape,
   drawIndicator,
   setupCanvas,
-} from "m3-loading-indicator";
+} from "@alerix/m3-loading-indicator";
 
 const canvas = document.querySelector("canvas")!;
 const ctx = setupCanvas(canvas, 48);

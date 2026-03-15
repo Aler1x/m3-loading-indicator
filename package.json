@@ -1,6 +1,6 @@
 {
   "name": "@alerix/m3-loading-indicator",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Alerix",
   "homepage": "https://aler1x.github.io/m3-loading-indicator",
   "repository": {
@@ -56,7 +56,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "build": "tsup && shx cp -r src/svelte dist/svelte",
+    "build": "tsup && shx cp -r src/svelte/. dist/svelte",
     "dev": "tsup --watch",
     "prepublishOnly": "npm run build",
     "pack:dry": "npm pack --dry-run",
