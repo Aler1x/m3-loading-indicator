@@ -193,6 +193,6 @@ The 7 shapes use exact SVG path data from Material Design asset files, parsed at
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+Apache 2.0 — see [LICENSE](./LICENSE) and [NOTICE](./NOTICE).
 
-This package contains code ported from material-components-android (Apache 2.0, Copyright The Android Open Source Project) and SVG path data from Material Design shape assets (Apache 2.0, Copyright Google LLC). The Apache 2.0 license text and full attribution are included in LICENSE and NOTICE respectively, as required by the Apache 2.0 license terms.
+Ported from [material-components-android](https://github.com/material-components/material-components-android) (Apache 2.0, Copyright The Android Open Source Project) with SVG shape data from [Material Design](https://m3.material.io/components/loading-indicator) (Apache 2.0, Copyright Google LLC).

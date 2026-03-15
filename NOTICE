@@ -1,41 +1,16 @@
 m3-loading-indicator
-Copyright (c) 2025 m3-loading-indicator contributors
+Copyright 2026 Alerix
 
-This package is a derivative work containing code ported from the
-following Apache 2.0 licensed projects:
+This product contains code ported from material-components-android:
+  Copyright (C) 2024 The Android Open Source Project
+  https://github.com/material-components/material-components-android
 
-================================================================================
+  Ported files:
+    LoadingIndicatorAnimatorDelegate.java → src/core/animator.ts
+    LoadingIndicatorDrawingDelegate.java  → src/core/shapes.ts, src/core/renderer.ts
+    LoadingIndicatorSpec.java             → constants in src/core/animator.ts
+    LoadingIndicator.java                 → framework wrappers
 
-material-components-android
-Copyright (C) 2024 The Android Open Source Project
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Source files ported (Java → TypeScript):
-  - LoadingIndicatorAnimatorDelegate.java → src/core/animator.ts
-  - LoadingIndicatorDrawingDelegate.java  → src/core/shapes.ts, src/core/renderer.ts
-  - LoadingIndicatorSpec.java             → (constants in animator.ts)
-  - LoadingIndicator.java                 → (component wrappers)
-
-Changes made:
-  - Translated from Java/Android to TypeScript/Web Canvas API
-  - Replaced Android SpringAnimation with equivalent spring physics simulation
-  - Replaced AndroidX Morph/RoundedPolygon with SVG path parsing and point-based
-    linear interpolation
-  - Replaced Android Canvas drawing with HTML Canvas 2D API
-  - Created framework-specific wrappers for React, Svelte 5, and Vue 3
-
-================================================================================
-
-Material Design Shape Assets
-Copyright (C) 2024 Google LLC
-
-SVG path data for the following shapes was extracted from official Material
-Design shape asset files distributed under the Apache License 2.0:
-  - Soft Burst, Cookie 9-sided, Pentagon, Pill, Sunny, Cookie 4-sided
-
-Source: https://m3.material.io/components/loading-indicator
+This product contains SVG shape path data from Material Design assets:
+  Copyright (C) 2024 Google LLC
+  https://m3.material.io/components/loading-indicator
