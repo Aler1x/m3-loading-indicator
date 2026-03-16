@@ -1,5 +1,5 @@
 import type { HTMLCanvasAttributes } from "svelte/elements";
-import type { SvelteComponent } from "svelte";
+import type { Component } from "svelte";
 
 export interface M3LoadingIndicatorProps extends HTMLCanvasAttributes {
   /** CSS pixel size (default 48). */
@@ -20,7 +20,7 @@ export interface M3LoadingIndicatorProps extends HTMLCanvasAttributes {
   class?: string;
 }
 
-declare const M3LoadingIndicator: SvelteComponent<M3LoadingIndicatorProps>;
-type M3LoadingIndicator = SvelteComponent<M3LoadingIndicatorProps>;
+declare const M3LoadingIndicator: Component<M3LoadingIndicatorProps>;
+type M3LoadingIndicator = Component<M3LoadingIndicatorProps>;
 
 export default M3LoadingIndicator;
