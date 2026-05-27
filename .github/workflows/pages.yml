@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -28,22 +26,30 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm build
 
-      - run: pnpm -C examples/vanilla build
+      - run: pnpm -C demos/svelte build
         env:
           BASE: /${{ github.event.repository.name }}/
 
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: examples/vanilla/dist
+          path: demos/svelte/dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: github-pages
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

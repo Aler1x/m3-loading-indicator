@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f2f0e3;
+  --color-dark: #2e2e2e;
+  --color-muted: rgba(0, 0, 0, 0.05);
+  --color-subtle: rgba(0, 0, 0, 0.08);
+  --color-coral: #f76f53;
+  --color-zen-blue: #6287f5;
+  --color-zen-green: #63f78b;
+
+  --font-sans: "Bricolage Grotesque", sans-serif;
+  --font-mono: "Fira Code", monospace;
+}
+
+/* Shiki renders a <pre class="shiki"> */
+.shiki {
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #faf9f2 !important;
+}
