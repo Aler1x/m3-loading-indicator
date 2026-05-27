@@ -60,15 +60,16 @@
     "dev": "tsup --watch",
     "prepublishOnly": "npm run build",
     "pack:dry": "npm pack --dry-run",
-    "example:vanilla": "pnpm -C examples/vanilla dev"
+    "demo": "pnpm build && pnpm -C demos/svelte dev",
+    "demo:build": "pnpm build && pnpm -C demos/svelte build"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
-    "svelte": "^5.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "shx": "^0.3.4",
+    "svelte": "^5.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.5.0",
     "vue": "^3.5.0"
@@ -92,5 +93,9 @@
     "vue": {
       "optional": true
     }
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "tailwindcss": "^4.3.0"
   }
 }

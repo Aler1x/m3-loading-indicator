@@ -1,3 +1,5 @@
 packages:
   - "."
-  - "examples/*"
+  - "demos/*"
+allowBuilds:
+  esbuild: true

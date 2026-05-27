@@ -21,12 +21,12 @@ npm install @alerix/m3-loading-indicator
 
 ## Examples
 
-Run the vanilla JS example locally:
+Run the docs site locally (playground + API reference):
 
 ```bash
 pnpm install
 pnpm build
-pnpm example:vanilla
+pnpm demo
 ```
 
 ## React

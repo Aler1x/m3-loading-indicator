@@ -1,0 +1,25 @@
+{
+  "name": "@alerix/m3-loading-indicator-docs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+  },
+  "dependencies": {
+    "@alerix/m3-loading-indicator": "workspace:*",
+    "shiki": "^3.4.0"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@tsconfig/svelte": "^5.0.8",
+    "@types/node": "^24.12.3",
+    "svelte": "^5.55.5",
+    "svelte-check": "^4.4.8",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  }
+}
