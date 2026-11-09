@@ -7,15 +7,18 @@ import {
   h,
   type PropType,
 } from "vue";
-import { M3Animator, getMorphedShape, drawIndicator, setupCanvas } from "./core/index.js";
+import { IndicatorController } from "./core/controller.js";
 
 /**
  * Material Design 3 Expressive Loading Indicator for Vue 3.
  *
+ * Exposed to assistive technology as an indeterminate `progressbar` labelled
+ * "Loading"; pass `aria-label` to change the label.
+ *
  * @example
  * ```vue
  * <script setup>
- * import { M3LoadingIndicator } from "m3-loading-indicator/vue";
+ * import { M3LoadingIndicator } from "@alerix/m3-loading-indicator/vue";
  * </script>
  *
  * <template>
@@ -42,56 +45,32 @@ export const M3LoadingIndicator = defineComponent({
     contained: { type: Boolean as PropType<boolean>, default: false },
     /** Container background color when contained. */
     containerColor: { type: String as PropType<string>, default: undefined },
+    /** Honour `prefers-reduced-motion` (default true). */
+    respectReducedMotion: { type: Boolean as PropType<boolean>, default: true },
   },
   setup(props) {
     const canvasRef = ref<HTMLCanvasElement | null>(null);
-    let ctx: CanvasRenderingContext2D | null = null;
-    let anim: M3Animator | null = null;
-    let raf = 0;
+    let controller: IndicatorController | null = null;
 
-    const loop = (ts: number) => {
-      if (!ctx || !anim) return;
-      anim.speed = props.speed;
-      anim.paused = props.paused;
-      anim.update(ts);
-      const shape = getMorphedShape(anim.morph);
-      drawIndicator(ctx, props.size, shape, anim.rotation, {
-        color: props.color,
-        sizeRatio: props.sizeRatio,
-        contained: props.contained,
-        containerColor: props.containerColor,
-      });
-      raf = requestAnimationFrame(loop);
-    };
-
-    const startAnimation = () => {
+    onMounted(() => {
       if (!canvasRef.value) return;
-      ctx = setupCanvas(canvasRef.value, props.size);
-      anim = new M3Animator();
-      raf = requestAnimationFrame(loop);
-    };
+      controller = new IndicatorController(canvasRef.value, { ...props });
+    });
 
-    const stopAnimation = () => {
-      cancelAnimationFrame(raf);
-      ctx = null;
-      anim = null;
-    };
+    onBeforeUnmount(() => {
+      controller?.destroy();
+      controller = null;
+    });
 
-    onMounted(startAnimation);
-    onBeforeUnmount(stopAnimation);
-
-    // Re-init canvas if size changes
     watch(
-      () => props.size,
-      () => {
-        stopAnimation();
-        startAnimation();
-      },
+      () => ({ ...props }),
+      (options) => controller?.update(options),
     );
 
     return () =>
       h("canvas", {
         ref: canvasRef,
+        role: "progressbar",
         "aria-label": "Loading",
         style: {
           display: "block",

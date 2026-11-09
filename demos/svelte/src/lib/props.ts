@@ -50,6 +50,13 @@ export const PROP_DOCS: PropDoc[] = [
     default: '"rgba(0,0,0,0.08)"',
     description: "Container fill when contained is true.",
   },
+  {
+    name: "respectReducedMotion",
+    type: "boolean",
+    default: "true",
+    description:
+      "Honour prefers-reduced-motion: stop morphing and keep only a slow rotation.",
+  },
 ];
 
 export type PlaygroundState = {

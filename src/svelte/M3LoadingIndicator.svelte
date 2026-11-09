@@ -2,10 +2,13 @@
   @component M3LoadingIndicator
   Material Design 3 Expressive Loading Indicator for Svelte 5.
 
+  Exposed to assistive technology as an indeterminate `progressbar` labelled
+  "Loading"; pass `aria-label` to change the label.
+
   @example
   ```svelte
   <script lang="ts">
-    import M3LoadingIndicator from "m3-loading-indicator/svelte";
+    import M3LoadingIndicator from "@alerix/m3-loading-indicator/svelte";
   </script>
 
   <M3LoadingIndicator />
@@ -14,12 +17,8 @@
   ```
 -->
 <script lang="ts">
-  import {
-    M3Animator,
-    getMorphedShape,
-    drawIndicator,
-    setupCanvas,
-  } from "../core/index.js";
+  import { untrack } from "svelte";
+  import { IndicatorController } from "../core/controller.js";
   import type { HTMLCanvasAttributes } from "svelte/elements";
 
   interface Props extends HTMLCanvasAttributes {
@@ -37,6 +36,8 @@
     contained?: boolean;
     /** Container background color when contained. */
     containerColor?: string;
+    /** Honour `prefers-reduced-motion` (default true). */
+    respectReducedMotion?: boolean;
   }
 
   let {
@@ -47,41 +48,46 @@
     paused = false,
     contained = false,
     containerColor,
+    respectReducedMotion = true,
     class: className,
     ...rest
   }: Props = $props();
 
   let canvas: HTMLCanvasElement | undefined = $state();
+  let controller: IndicatorController | undefined;
 
+  const options = () => ({
+    size,
+    color,
+    sizeRatio,
+    speed,
+    paused,
+    contained,
+    containerColor,
+    respectReducedMotion,
+  });
+
+  // Create the controller once per canvas element.
   $effect(() => {
     if (!canvas) return;
-
-    const ctx = setupCanvas(canvas, size);
-    const anim = new M3Animator();
-    let raf: number;
-
-    const loop = (ts: number) => {
-      anim.speed = speed;
-      anim.paused = paused;
-      anim.update(ts);
-      const shape = getMorphedShape(anim.morph);
-      drawIndicator(ctx, size, shape, anim.rotation, {
-        color,
-        sizeRatio,
-        contained,
-        containerColor,
-      });
-      raf = requestAnimationFrame(loop);
+    const c = new IndicatorController(canvas, untrack(options));
+    controller = c;
+    return () => {
+      c.destroy();
+      controller = undefined;
     };
+  });
 
-    raf = requestAnimationFrame(loop);
-
-    return () => cancelAnimationFrame(raf);
+  // Push prop changes without restarting the animation.
+  $effect(() => {
+    const next = options();
+    untrack(() => controller?.update(next));
   });
 </script>
 
 <canvas
   bind:this={canvas}
+  role="progressbar"
   aria-label="Loading"
   class={className}
   style:display="block"

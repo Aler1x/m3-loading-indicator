@@ -32,6 +32,11 @@ export class M3Animator {
 
   speed = 1;
   paused = false;
+  /**
+   * When true, shape morphing is frozen and only a slow, steady rotation is
+   * applied (for users who prefer reduced motion).
+   */
+  reducedMotion = false;
 
   rotation = 0;
   morph = 0;
@@ -52,6 +57,12 @@ export class M3Animator {
     const dt = rawDt * this.speed;
     this.lastTs = ts;
     if (dt <= 0) return;
+
+    if (this.reducedMotion) {
+      this.rotation =
+        (this.rotation + (CONSTANT_ROTATION_DEG * dt * 1000) / DURATION_PER_SHAPE_MS) % 360;
+      return;
+    }
 
     this.elapsed += dt * 1000;
     const cycle = Math.floor(this.elapsed / DURATION_PER_SHAPE_MS);
@@ -76,6 +87,15 @@ export class M3Animator {
       360;
 
     this.morph = this.spring.pos;
+  }
+
+  /**
+   * Forget the last frame timestamp so the next `update()` starts a fresh
+   * delta. Call this when resuming after the rAF loop was stopped, to avoid a
+   * jump in the animation.
+   */
+  resetClock(): void {
+    this.lastTs = 0;
   }
 
   /** Reset animation to initial state. */

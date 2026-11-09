@@ -185,24 +185,38 @@ export function getShapes(): Point[][] {
   return _shapes;
 }
 
-/** Linearly interpolate between two shapes. */
-export function lerpShapes(a: Point[], b: Point[], t: number): Point[] {
-  const out: Point[] = new Array(a.length);
+/**
+ * Linearly interpolate between two shapes.
+ *
+ * @param out - Optional array to write into (reused, including its points) to
+ *   avoid allocating a new array every animation frame.
+ */
+export function lerpShapes(a: Point[], b: Point[], t: number, out: Point[] = []): Point[] {
+  out.length = a.length;
   for (let i = 0; i < a.length; i++) {
-    out[i] = [
-      a[i][0] + (b[i][0] - a[i][0]) * t,
-      a[i][1] + (b[i][1] - a[i][1]) * t,
-    ];
+    const x = a[i][0] + (b[i][0] - a[i][0]) * t;
+    const y = a[i][1] + (b[i][1] - a[i][1]) * t;
+    const p = out[i];
+    if (p) {
+      p[0] = x;
+      p[1] = y;
+    } else {
+      out[i] = [x, y];
+    }
   }
   return out;
 }
 
-/** Get the morphed shape at a given morph fraction. */
-export function getMorphedShape(morphFraction: number): Point[] {
+/**
+ * Get the morphed shape at a given morph fraction.
+ *
+ * @param out - Optional array to write into; see {@link lerpShapes}.
+ */
+export function getMorphedShape(morphFraction: number, out?: Point[]): Point[] {
   const shapes = getShapes();
   const idx = Math.floor(morphFraction);
   const from = ((idx % SHAPE_COUNT) + SHAPE_COUNT) % SHAPE_COUNT;
   const to = (from + 1) % SHAPE_COUNT;
   const t = Math.max(0, Math.min(1, morphFraction - idx));
-  return lerpShapes(shapes[from], shapes[to], t);
+  return lerpShapes(shapes[from], shapes[to], t, out);
 }

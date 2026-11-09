@@ -1,11 +1,11 @@
 {
   "name": "@alerix/m3-loading-indicator",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "author": "Alerix",
   "homepage": "https://aler1x.github.io/m3-loading-indicator",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aler1x/m3-loading-indicator.git"
+    "url": "git+https://github.com/aler1x/m3-loading-indicator.git"
   },
   "description": "Material Design 3 Expressive Loading Indicator for React, Svelte 5, Vue 3, and vanilla JS. Faithfully ported from Android's material-components.",
   "type": "module",
@@ -30,61 +30,79 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/core/index.d.ts",
-      "import": "./dist/core/index.js",
-      "require": "./dist/core/index.cjs"
+      "import": {
+        "types": "./dist/core/index.d.ts",
+        "default": "./dist/core/index.js"
+      },
+      "require": {
+        "types": "./dist/core/index.d.cts",
+        "default": "./dist/core/index.cjs"
+      }
     },
     "./react": {
-      "types": "./dist/react.d.ts",
-      "import": "./dist/react.js",
-      "require": "./dist/react.cjs"
+      "import": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.js"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
     },
     "./vue": {
-      "types": "./dist/vue.d.ts",
-      "import": "./dist/vue.js",
-      "require": "./dist/vue.cjs"
+      "import": {
+        "types": "./dist/vue.d.ts",
+        "default": "./dist/vue.js"
+      },
+      "require": {
+        "types": "./dist/vue.d.cts",
+        "default": "./dist/vue.cjs"
+      }
     },
     "./svelte": {
       "types": "./dist/svelte/M3LoadingIndicator.svelte.d.ts",
       "svelte": "./dist/svelte/M3LoadingIndicator.svelte",
       "default": "./dist/svelte/M3LoadingIndicator.svelte"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
-    "src/svelte",
-    "NOTICE"
+    "NOTICE",
+    "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "tsup && shx cp -r src/svelte/. dist/svelte",
+    "build": "tsup && shx mkdir -p dist/svelte && shx cp src/svelte/M3LoadingIndicator.svelte src/svelte/M3LoadingIndicator.svelte.d.ts dist/svelte/",
     "dev": "tsup --watch",
-    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit && tsc -p test",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint:pkg": "publint --strict && attw --pack . --profile node16 --exclude-entrypoints ./svelte",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build",
     "pack:dry": "npm pack --dry-run",
     "demo": "pnpm build && pnpm -C demos/svelte dev",
     "demo:build": "pnpm build && pnpm -C demos/svelte build"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
+    "jsdom": "^31.0.0",
+    "publint": "^0.3.25",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
     "shx": "^0.3.4",
     "svelte": "^5.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.5.0",
+    "vitest": "^5.1.0",
     "vue": "^3.5.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
     "svelte": ">=5.0.0",
     "vue": ">=3.3.0"
   },
   "peerDependenciesMeta": {
     "react": {
-      "optional": true
-    },
-    "react-dom": {
       "optional": true
     },
     "svelte": {
@@ -94,8 +112,7 @@
       "optional": true
     }
   },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.3.0",
-    "tailwindcss": "^4.3.0"
+  "bugs": {
+    "url": "https://github.com/aler1x/m3-loading-indicator/issues"
   }
 }

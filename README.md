@@ -9,9 +9,11 @@ Faithfully ported from Android's [material-components-android](https://github.co
 - 7 morphing shapes: Soft Burst → Cookie 9 → Pentagon → Pill → Sunny → Cookie 4 → Oval
 - Spring-driven animation matching Android's `SpringForce`
 - Pixel-perfect shapes from official Material Design SVG assets
-- Canvas-based rendering with HiDPI support
+- Canvas-based rendering with HiDPI support (re-renders sharply on zoom / monitor changes)
+- Accessible: exposed as an indeterminate `progressbar`, respects `prefers-reduced-motion`
+- Lightweight on the CPU: the render loop stops while paused or scrolled out of view
 - Tree-shakeable — only import the framework you use
-- TypeScript-first with full type definitions
+- TypeScript-first with full type definitions (ESM + CJS)
 
 ## Install
 
@@ -97,7 +99,8 @@ import { M3LoadingIndicator } from "@alerix/m3-loading-indicator/vue";
 
 ## Headless / Vanilla JS
 
-Use the core API directly for custom renderers:
+Use the core API directly for custom renderers. Pass a reusable array as the second
+argument to `getMorphedShape` to avoid allocating a new point array every frame:
 
 ```ts
 import {
@@ -110,10 +113,11 @@ import {
 const canvas = document.querySelector("canvas")!;
 const ctx = setupCanvas(canvas, 48);
 const animator = new M3Animator();
+const buffer: [number, number][] = [];
 
 function loop(ts: number) {
   animator.update(ts);
-  const shape = getMorphedShape(animator.morph);
+  const shape = getMorphedShape(animator.morph, buffer);
   drawIndicator(ctx, 48, shape, animator.rotation, {
     color: "#6750A4",
   });
@@ -134,6 +138,33 @@ requestAnimationFrame(loop);
 | `paused` | `boolean` | `false` | Pause the animation |
 | `contained` | `boolean` | `false` | Render with circular container background |
 | `containerColor` | `string` | `"rgba(0,0,0,0.08)"` | Container background color |
+| `respectReducedMotion` | `boolean` | `true` | Honour `prefers-reduced-motion` (see below) |
+
+Any other attributes (`class`, `id`, `aria-*`, event handlers, …) are passed through to the `<canvas>`.
+
+Changing `size` (or any other prop) at runtime updates the indicator without restarting the animation.
+
+## Accessibility
+
+The canvas is rendered with `role="progressbar"` and `aria-label="Loading"` — an
+indeterminate progress bar, so screen readers announce that something is loading.
+Override the label with a regular attribute:
+
+```tsx
+<M3LoadingIndicator aria-label="Loading messages" />
+```
+
+If the indicator is purely decorative (e.g. next to visible "Loading…" text), hide it instead:
+
+```tsx
+<M3LoadingIndicator aria-hidden="true" />
+```
+
+### Reduced motion
+
+When the user has enabled *reduce motion* in their OS, the indicator stops morphing between
+shapes and only rotates slowly, so it still signals activity without the busy animation.
+Pass `respectReducedMotion={false}` to always play the full animation.
 
 ### Contained variant
 
@@ -157,6 +188,17 @@ The contained variant draws a circular background behind the indicator, matching
 <M3LoadingIndicator contained container-color="#E8DEF8" color="#6750A4" />
 ```
 
+## Development
+
+```bash
+pnpm install
+pnpm typecheck   # tsc over src + tests
+pnpm test        # vitest
+pnpm build       # tsup → dist/
+pnpm lint:pkg    # publint + are-the-types-wrong on the packed tarball
+pnpm demo        # docs site / playground
+```
+
 ## Architecture
 
 ```
@@ -165,10 +207,11 @@ m3-loading-indicator
 │   ├── spring    # Spring physics (matches Android SpringForce)
 │   ├── shapes    # SVG path parsing + 7 Material shapes
 │   ├── animator  # Animation controller (from AnimatorDelegate.java)
-│   └── renderer  # Canvas drawing + HiDPI setup
-├── react         # React component (useEffect + rAF)
-├── svelte        # Svelte 5 component ($effect + rAF)
-└── vue           # Vue 3 component (defineComponent + rAF)
+│   ├── renderer  # Canvas drawing + HiDPI setup
+│   └── controller# (internal) rAF loop, visibility, reduced motion, DPR — shared by wrappers
+├── react         # React component
+├── svelte        # Svelte 5 component
+└── vue           # Vue 3 component
 ```
 
 ## Animation System

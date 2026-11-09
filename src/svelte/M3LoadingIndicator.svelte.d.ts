@@ -16,6 +16,8 @@ export interface M3LoadingIndicatorProps extends HTMLCanvasAttributes {
   contained?: boolean;
   /** Container background color when contained. */
   containerColor?: string;
+  /** Honour `prefers-reduced-motion` (default true). */
+  respectReducedMotion?: boolean;
   /** Additional CSS class. */
   class?: string;
 }
